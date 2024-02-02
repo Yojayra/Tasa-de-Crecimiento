@@ -1,0 +1,74 @@
+def calcular_estadisticas(df, variable_grupo):
+    # Calcular estadísticas por grupo
+    media_por_grupo = df.groupby(variable_grupo).mean()
+    mediana_por_grupo = df.groupby(variable_grupo).median()
+    percentil_25_por_grupo = df.groupby(variable_grupo).quantile(0.25)
+    percentil_75_por_grupo = df.groupby(variable_grupo).quantile(0.75)
+
+    # Calcular el rango intercuartilico
+    rango_intercuartilico = percentil_75_por_grupo - percentil_25_por_grupo
+
+    # Unir todos los dataframes
+    df_final = pd.concat([media_por_grupo, mediana_por_grupo, percentil_25_por_grupo, percentil_75_por_grupo, rango_intercuartilico], axis=1)
+
+    # Cambiar los nombres de las columnas
+    df_final.columns = ['media', 'mediana', 'percentil_25', 'percentil_75', 'rango_intercuartilico']
+
+    return df_final
+
+calcular_estadisticas(df_negocios, 'sexo_dueno')
+calcular_estadisticas(df_negocios, 'tipo_cliente')
+calcular_estadisticas(df_negocios, 'genero_empleado')
+
+### ejercicios ###
+
+def saludo(nombre):
+    #esta función saluda al nombre que ingrese
+    a = print(f"hola {nombre}")
+    return a
+
+nombre_1 = 'Pablo'
+saludo(nombre_1)
+
+### ejemplo 2
+def calcular_promedio(numeros):
+    ## Esta funcion calcula una lista de números
+    ## arg : números = lista de números
+    ## return : el promedio de la lista números 
+    suma = sum(numeros)
+    promedio = suma/len(numeros) ## len hace el conteo de los números en la lista
+    return promedio
+
+lista = [1,2,3,10,20,85]
+calcular_promedio(lista)
+
+### ejemplo 3
+import pandas as pd
+import numpy as np
+
+# CREAMOS NUMEROS ALETORIOS
+np.random.seed(123) # semilla para que no se cambie lo datos alearios
+# crear datos y df
+regiones = np.random.choice(['A','B','C'], size= 100)
+ventas = np.random.randint(100,1000, size= 100)
+costos = np.random.uniform(10,500, size= 100)
+
+df = pd.DataFrame({'region': regiones, 'ventas': ventas, 'costo': costos})
+
+# definimos una función
+def ventascostos_región(variable_cat):
+    """ calcularemos las sumas totales de ventas y costos por región
+    Arg: variable_cat = nombre de la columna categorica del df
+    returns: suma de las ventas """
+
+    suma = df.groupby(variable_cat).sum()
+    return suma
+
+ventascostos_región(variable_cat= 'region')
+
+### Clase 5
+def suma_resta(a, b):
+    x = a + b -3*b
+    return x
+
+y = suma_resta(3,4)
